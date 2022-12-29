@@ -35,13 +35,13 @@ const Header = () => {
         </div>
         {/* 좌측 메뉴 */}
         <div className='hidden md:flex items-center space-x-8 text-gray-500'>
-          <a href='#' className='text-sm '>
+          <a href='#!' className='text-sm '>
             About Me
           </a>
-          <a href='#' className='text-sm'>
+          <a href='#!' className='text-sm'>
             Portfolio
           </a>
-          <a href='#' className='text-sm'>
+          <a href='#!' className='text-sm'>
             Cooperation
           </a>
           {/* <a
@@ -127,13 +127,13 @@ const Header = () => {
                 />
               </svg>
             </button>
-            <a href='#' className='text-sm self-stretch'>
+            <a href='#!' className='text-sm self-stretch'>
               About Me
             </a>
-            <a href='#' className='text-sm self-stretch'>
+            <a href='#!' className='text-sm self-stretch'>
               Portfolio
             </a>
-            <a href='#' className='text-sm self-stretch'>
+            <a href='#!' className='text-sm self-stretch'>
               Cooperation
             </a>
           </motion.div>
