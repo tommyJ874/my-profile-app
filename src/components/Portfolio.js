@@ -85,6 +85,7 @@ const Portfolio = () => {
                   <img
                     className='h-full w-full rounded-lg'
                     src={portfolio.imageURL}
+                    alt='project'
                   ></img>
                 ) : (
                   <Warning className='w-10 h-10'></Warning>
@@ -116,7 +117,7 @@ const Portfolio = () => {
                   onClick={fetchMorePosts}
                 >
                   더보기
-                  <img className='w-6 h-6' src={doubledown} />
+                  <img className='w-6 h-6' src={doubledown} alt='더보기 버튼' />
                 </button>
               )
             )}

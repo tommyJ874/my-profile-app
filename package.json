@@ -37,16 +37,14 @@
       "react-app",
       "react-app/jest"
     ],
-    "rules": {
-      "no-unused-vars": "warn"
-    },
     "overrides": [
       {
         "files": [
           "**/*.{js,jsx,ts,tsx}"
         ],
         "rules": {
-          "max-len": "off"
+          "max-len": "off",
+          "no-unused-vars": "off"
         }
       }
     ]

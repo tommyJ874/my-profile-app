@@ -53,11 +53,7 @@ const LetsTalk = () => {
               <MakePDFButton>Download this portfolio in PDF</MakePDFButton>
             </div>
             <div className='absolute right-[4.8rem] flex flex-col items-end gap-y-3 md:relative md:right-auto md:flex-row md:items-center md:gap-x-5'>
-              <img
-                className='h-20 w-20'
-                src={linkedinQR}
-                alt='Linkedin QR Image'
-              />
+              <img className='h-20 w-20' src={linkedinQR} alt='Linkedin QR' />
               <span className='text-[0.5rem] text-gray-400'>
                 Connect in Linkedin
               </span>
