@@ -39,7 +39,7 @@ const makePDF = () => {
       const imageFile = await convertToImg();
 
       // imageFile to Pdf
-      const pdf = convertToPdf(imageFile);
+      convertToPdf(imageFile);
     },
   };
 };
