@@ -4,7 +4,6 @@ import PortfolioData from '../services/PortfolioData';
 import BorderGradientButton from '../UI/BorderGradientButton';
 import { ReactComponent as Warning } from '../styles/images/warning.svg';
 import doubledown from '../styles/images/doubledown.png';
-import Loading from './Loading';
 
 const Portfolio = () => {
   const [portfolios, setPortfolios] = useState([]);
@@ -108,7 +107,7 @@ const Portfolio = () => {
         {portfolios.length > 0 && (
           <div className='flex justify-center p-3'>
             {nextPortfolios_loading ? (
-              // <Loading />
+              //TODO: 로딩 애니메이션
               <></>
             ) : (
               lastKey && (
