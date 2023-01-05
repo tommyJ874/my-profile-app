@@ -17,11 +17,11 @@ code {
 }
 
 .App {
-  font-family: 'Noto Sans CJK KR';
+  font-family: 'Noto Sans CJK KR Medium';
 }
 
 @font-face {
-  font-family: 'Noto Sans CJK KR';
+  font-family: 'Noto Sans CJK KR Light';
   font-style: normal;
   font-weight: 100;
   src: url('styles/fonts/NotoSansKR-Light.woff2') format('woff2'),
@@ -30,7 +30,7 @@ code {
 }
 
 @font-face {
-  font-family: 'Noto Sans CJK KR';
+  font-family: 'Noto Sans CJK KR Regular';
   font-style: normal;
   font-weight: normal;
   src: url('styles/fonts/NotoSansKR-Regular.woff2') format('woff2'),
@@ -39,7 +39,7 @@ code {
 }
 
 @font-face {
-  font-family: 'Noto Sans CJK KR';
+  font-family: 'Noto Sans CJK KR Medium';
   font-style: normal;
   font-weight: 500;
   src: url('styles/fonts/NotoSansKR-Medium.woff2') format('woff2'),
@@ -48,7 +48,7 @@ code {
 }
 
 @font-face {
-  font-family: 'Noto Sans CJK KR';
+  font-family: 'Noto Sans CJK KR Bold';
   font-style: normal;
   font-weight: bold;
   src: url('styles/fonts/NotoSansKR-Bold.woff2') format('woff2'),
