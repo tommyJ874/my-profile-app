@@ -46,7 +46,7 @@
           "**/*.{js,jsx,ts,tsx}"
         ],
         "rules": {
-          "max-len": "warn"
+          "max-len": "off"
         }
       }
     ]
