@@ -59,7 +59,7 @@ const AboutMe = () => {
                   </HashLink>
                 </BorderGradientButton>
                 <BGGradientButton>
-                  <HashLink smooth to='#portfolio'>
+                  <HashLink smooth to='#lets-talk'>
                     Let's Talk
                   </HashLink>
                 </BGGradientButton>
