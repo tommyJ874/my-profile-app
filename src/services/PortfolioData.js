@@ -1,18 +1,36 @@
 import { firestore } from '../firebase';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { collection, getCountFromServer } from 'firebase/firestore';
 
-const portfoliosFirstBatch = async function () {
+const getPortfolios = async (lastKey) => {
+  const count = countBatch();
+  const list = portfoliosBatch(lastKey);
+
+  const data = await Promise.all([count, list]);
+  console.log('🚀 ~ file: PortfolioData.js:10 ~ getPortfolios ~ data', data);
+
+  return data;
+};
+
+const countBatch = async () => {
+  const coll = collection(firestore, 'portfolios');
+  const snapshot = await getCountFromServer(coll);
+
+  return snapshot.data().count;
+};
+
+const portfoliosBatch = async function (lastKey = '') {
   try {
     const data = await firestore
       .collection('portfolios')
       .orderBy('createdAt', 'desc')
-      .limit(5)
+      .startAfter(lastKey)
+      .limit(6)
       .get();
 
-    let portfolios = [];
-    let lastKey = '';
+    const portfolios = await data.docs.reduce(async (prev, doc) => {
+      let prevPortfolio = await prev;
 
-    data.forEach((doc) => {
       let portfolio = {
         id: doc.id,
         title: doc.data().title,
@@ -20,70 +38,27 @@ const portfoliosFirstBatch = async function () {
         imageKey: doc.data().imageKey,
         hashtag: doc.data().hashtag,
         pageURL: doc.data().pageURL,
+        createdAt: doc.data().createdAt,
       };
 
-      lastKey = doc.data().createdAt;
-
-      portfolios.push(portfolio);
-    });
-
-    return { portfolios, lastKey };
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const getImageURL = async function (res) {
-  try {
-    let arr = [];
-    for (const item of res) {
-      let obj = { ...item };
-
-      if (item.imageKey) {
+      if (doc.data().imageKey) {
         const storage = getStorage();
-        const imageRef = ref(storage, `portfolio/${item.imageKey}`);
-        obj.imageURL = await getDownloadURL(imageRef);
+        const imageRef = ref(storage, `portfolio/${doc.data().imageKey}`);
+        const url = await getDownloadURL(imageRef);
+        portfolio.imageURL = url;
       }
-      arr.push({ ...obj });
-    }
-    return arr;
-  } catch (e) {
-    console.log(e);
-  }
-};
 
-const portfoliosNextBatch = async (key) => {
-  try {
-    const data = await firestore
-      .collection('portfolios')
-      .orderBy('createdAt', 'desc')
-      .startAfter(key)
-      .limit(5)
-      .get();
+      return Promise.resolve([...prevPortfolio, portfolio]);
+    }, Promise.resolve([]));
 
-    let portfolios = [];
-    let lastKey = '';
-    data.forEach((doc) => {
-      portfolios.push({
-        id: doc.id,
-        title: doc.data().title,
-        description: doc.data().description,
-        imageKey: doc.data().imageKey,
-        hashtag: doc.data().hashtag,
-        pageURL: doc.data().pageURL,
-      });
-      lastKey = doc.data().createdAt;
-    });
-    return { portfolios, lastKey };
+    return portfolios;
   } catch (e) {
     console.log(e);
   }
 };
 
 const APIs = {
-  portfoliosFirstBatch,
-  getImageURL,
-  portfoliosNextBatch,
+  getPortfolios,
 };
 
 export default APIs;

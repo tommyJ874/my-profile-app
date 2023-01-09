@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CardSmall from '../UI/CardSmall';
 import PortfolioData from '../services/PortfolioData';
 import { ReactComponent as Warning } from '../styles/images/warning.svg';
@@ -8,54 +8,34 @@ import HashTag from '../UI/HashTag';
 const Portfolio = () => {
   const [portfolios, setPortfolios] = useState([]);
   const [lastKey, setLastKey] = useState('');
-  const [nextPortfolios_loading, setNextPortfoliosLoading] = useState(false);
+  const [isFetching, setFetching] = useState(false);
+
+  const fetchPortfolio = useCallback(() => {
+    PortfolioData.getPortfolios(lastKey).then((res) => {
+      const count = res[1].length;
+
+      if (count === 6) {
+        res[1].pop();
+        setLastKey(res[1].at(-1).createdAt);
+      } else {
+        setLastKey('');
+      }
+
+      setPortfolios(portfolios.concat(res[1]));
+    });
+
+    setFetching(false);
+  }, [portfolios, lastKey]);
 
   useEffect(() => {
-    // first 5 portfolios
-    PortfolioData.portfoliosFirstBatch()
-      .then((res) => {
-        // setPortfolios(res.portfolios);
-        setLastKey(res.lastKey);
-
-        return res.portfolios;
-      })
-      .then((res) => {
-        PortfolioData.getImageURL(res).then((resImageData) => {
-          setPortfolios(resImageData);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setFetching(true);
   }, []);
 
-  const fetchMorePosts = () => {
-    if (lastKey) {
-      setNextPortfoliosLoading(true);
-      PortfolioData.portfoliosNextBatch(lastKey)
-        .then((res) => {
-          if (res.portfolios.length === 5) {
-            setLastKey(res.lastKey);
-          } else {
-            setLastKey('');
-          }
-
-          //setPortfolios(portfolios.concat(res.portfolios));
-          setNextPortfoliosLoading(false);
-
-          return res.portfolios;
-        })
-        .then((res) => {
-          PortfolioData.getImageURL(res).then((resImageData) => {
-            setPortfolios(portfolios.concat(resImageData));
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          setNextPortfoliosLoading(false);
-        });
+  useEffect(() => {
+    if (isFetching) {
+      fetchPortfolio();
     }
-  };
+  }, [isFetching, fetchPortfolio]);
 
   const allPosts = (
     <>
@@ -76,8 +56,8 @@ const Portfolio = () => {
                   ))}
                 </p>
                 <div className='flex gap-x-2 gap-y-2 flex-wrap max-w-[26.688rem]'>
-                  {portfolio.hashtag?.split(' ').map((el) => {
-                    return <HashTag>{el}</HashTag>;
+                  {portfolio.hashtag?.split(' ').map((el, idx) => {
+                    return <HashTag key={idx}>{el}</HashTag>;
                   })}
                 </div>
               </div>
@@ -127,14 +107,16 @@ const Portfolio = () => {
         <div className='flex flex-col gap-y-8'>{allPosts}</div>
         {portfolios.length > 0 && (
           <div className='flex justify-center p-3'>
-            {nextPortfolios_loading ? (
+            {isFetching ? (
               //TODO: 로딩 애니메이션
               <></>
             ) : (
               lastKey && (
                 <button
                   className='flex gap-x-1 font-bold text-sm text-white animate-pulse'
-                  onClick={fetchMorePosts}
+                  onClick={() => {
+                    setFetching(true);
+                  }}
                 >
                   더보기
                   <img className='w-6 h-6' src={doubleDown} alt='더보기 버튼' />
