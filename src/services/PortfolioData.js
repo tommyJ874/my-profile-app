@@ -19,6 +19,7 @@ const portfoliosFirstBatch = async function () {
         description: doc.data().description,
         imageKey: doc.data().imageKey,
         hashtag: doc.data().hashtag,
+        pageURL: doc.data().pageURL,
       };
 
       lastKey = doc.data().createdAt;
@@ -69,6 +70,7 @@ const portfoliosNextBatch = async (key) => {
         description: doc.data().description,
         imageKey: doc.data().imageKey,
         hashtag: doc.data().hashtag,
+        pageURL: doc.data().pageURL,
       });
       lastKey = doc.data().createdAt;
     });

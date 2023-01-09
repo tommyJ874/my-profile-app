@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import CardSmall from '../UI/CardSmall';
 import PortfolioData from '../services/PortfolioData';
-import BorderGradientButton from '../UI/BorderGradientButton';
 import { ReactComponent as Warning } from '../styles/images/warning.svg';
-import doubledown from '../styles/images/doubledown.png';
+import doubleDown from '../styles/images/doubleDown.png';
+import HashTag from '../UI/HashTag';
 
 const Portfolio = () => {
   const [portfolios, setPortfolios] = useState([]);
@@ -67,7 +67,7 @@ const Portfolio = () => {
                 <span className='inline-block font-bold pb-3'>
                   {portfolio.title}
                 </span>
-                <p className='text-xs text-gray-500 pb-7 w-full break-keep'>
+                <p className='text-[0.813rem] text-gray-500 pb-7 w-full break-keep'>
                   {portfolio.description?.split('\\n').map((txt, idx) => (
                     <span key={idx} className='w-full'>
                       {txt}
@@ -75,13 +75,33 @@ const Portfolio = () => {
                     </span>
                   ))}
                 </p>
-                <BorderGradientButton>
-                  <a href='#!'>Look</a>
-                </BorderGradientButton>
+                <div className='flex gap-x-2 gap-y-2 flex-wrap max-w-[26.688rem]'>
+                  {portfolio.hashtag?.split(' ').map((el) => {
+                    return <HashTag>{el}</HashTag>;
+                  })}
+                </div>
               </div>
-
-              <div className='self-center flex justify-center items-center w-[11.8rem] h-[8.925rem] border rounded-lg p-[0.3rem]'>
-                {portfolio.imageURL ? (
+              <div className='self-center flex justify-center items-center w-[11.8rem] h-[8.925rem] border rounded-lg p-[0.3rem] bg-white'>
+                {portfolio.pageURL ? (
+                  <>
+                    <div className='absolute w-[6.875rem] h-[5.188rem] rounded-md border-8 border-gray-400 animate-ping -z-10'></div>
+                    <a
+                      href={portfolio.pageURL}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      {portfolio.imageURL ? (
+                        <img
+                          className='h-full w-full rounded-lg hover:cursor-pointer'
+                          src={portfolio.imageURL}
+                          alt='project'
+                        ></img>
+                      ) : (
+                        <Warning className='w-10 h-10'></Warning>
+                      )}
+                    </a>
+                  </>
+                ) : portfolio.imageURL ? (
                   <img
                     className='h-full w-full rounded-lg'
                     src={portfolio.imageURL}
@@ -117,7 +137,7 @@ const Portfolio = () => {
                   onClick={fetchMorePosts}
                 >
                   더보기
-                  <img className='w-6 h-6' src={doubledown} alt='더보기 버튼' />
+                  <img className='w-6 h-6' src={doubleDown} alt='더보기 버튼' />
                 </button>
               )
             )}
