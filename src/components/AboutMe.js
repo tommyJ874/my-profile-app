@@ -58,7 +58,7 @@ const AboutMe = () => {
                     Portfolio
                   </HashLink>
                 </BorderGradientButton>
-                <BGGradientButton>
+                <BGGradientButton height='h-8' width='w-24'>
                   <HashLink smooth to='#lets-talk'>
                     Let's Talk
                   </HashLink>
